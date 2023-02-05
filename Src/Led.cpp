@@ -4,32 +4,36 @@
  *  Created on: 4 Şub 2023
  *      Author: Veli Ertunç
  */
-
+#include "stm32f4xx_hal.h"
 #include "Led.h"
 
-Led::Led(GPIO_Typedef* port = GPIOD, int pin){
-	GPIO_InitTypeDef initCfg;
-	_port = port;
-	_pin = pin;
-	_enableClock();
-	initCfg.Pin = __pin;
-	initCfg.Mode = GPIO_MODE_OUTPUT_PP;
-	initCfg.Pull = GPIO_PULLUP;
-	initCfg.Speed = GPIO_SPEED_FAST;
+using namespace STM32F4Discovery;
 
+Led::Led(uint32_t pin){
+	GPIO_InitTypeDef* initCfg;
+	_pin = pin;
+
+	//Enable the peripheral clock
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+
+	initCfg->Pin = _pin;
+	initCfg->Mode = GPIO_MODE_OUTPUT_PP;
+	initCfg->Pull = GPIO_PULLUP;
+	initCfg->Speed = GPIO_SPEED_FAST;
+
+	//Configure the pin
 	HAL_GPIO_Init(_port, initCfg);
 
-	HAL_GPIO_WritePin(_port, _pin, GPIO_PIN_RESET);
-
-	TurnOff();
+	//Reset the pin
+	Off();
 }
 
-void Led::TurnOn(void)
+void Led::On(void)
 {
-	HAL_GPIO_WritePin(_port,_pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(_port, _pin, GPIO_PIN_SET);
 }
 
-void Led::TurnOff(void)
+void Led::Off(void)
 {
 	HAL_GPIO_WritePin(_port, _pin, GPIO_PIN_RESET);
 }

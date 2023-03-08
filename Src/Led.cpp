@@ -6,7 +6,6 @@
  */
 #include "stm32f4xx_hal.h"
 #include "Led.h"
-#include "Accelerometer.h"
 
 using namespace STM32F4Discovery;
 

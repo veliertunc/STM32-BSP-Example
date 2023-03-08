@@ -41,7 +41,18 @@ void Accelerometer::Reset(){
 }
 
 void Accelerometer::ConfigureIT(){
+	GPIO_InitTypeDef cfg;
+	__HAL_RCC_GPIOE_CLK_ENABLE();
 
+	cfg.Pin = GPIO_PIN_1;
+	cfg.Mode = GPIO_MODE_IT_RISING;
+	cfg.Speed = GPIO_SPEED_FAST;
+	cfg.Pull = GPIO_NOPULL;
+
+	HAL_GPIO_Init(accelPort, &cfg);
+
+	HAL_NVIC_SetPriority((IRQn_Type)EXTI1_IRQn, 15, 0);
+	HAL_NVIC_EnableIRQ((IRQn_Type)EXTI1_IRQn);
 }
 
 /**

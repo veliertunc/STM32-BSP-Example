@@ -154,10 +154,10 @@ namespace STM32F4Discovery{
 		}
 
 		/**
-		 * @brief Reads
+		 * @brief Reads the axis with the given low address byte
 		 *
-		 * @param lowAddr
-		 * @return
+		 * @param lowAddr: The lower byte of the address of the axis
+		 * @return The calculated angle value
 		 */
 		float readAxis(uint8_t lowAddr){
 			float value = 0.0;
